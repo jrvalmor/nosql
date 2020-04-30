@@ -1,41 +1,43 @@
 -- Exercício 01 - Aquecendo com os pets
 
-  1. Adicione outro Peixe e um Hamster com nome Frodo
+	1. Adicione outro Peixe e um Hamster com nome Frodo
 
-db.pets.insert({name: "Frodo", species: "Peixe"})
-db.pets.insert({name: "Frodo", species: "Hamster"})
+> db.pets.insert({name: "Frodo", species: "Peixe"})
+> db.pets.insert({name: "Frodo", species: "Hamster"})
 
-  2. Faça uma contagem dos pets na coleção
+	2. Faça uma contagem dos pets na coleção
 
-db.pets.find().count()
+> db.pets.find().count()
 
-  3. Retorne apenas um elemento o método prático possível
+	3. Retorne apenas um elemento o método prático possível
 
-db.pets.findOne()
+> db.pets.findOne()
 
-  4. Identifique o ID para o Gato Kilha.
+	4. Identifique o ID para o Gato Kilha.
 
-db.pets.find({"name": "Kilha", "species": "Gato"}, {"id_":1})
+> db.pets.find({"name": "Kilha", "species": "Gato"}, {"id_":1})
 
-  5. Faça uma busca pelo ID e traga o Hamster Mike
+	5. Faça uma busca pelo ID e traga o Hamster Mike
 
-db.pets.find({"_id": ObjectId("5eaafaca7f990bcf7dfbe236")})
+> db.pets.find({"_id": ObjectId("5eaafaca7f990bcf7dfbe236")})
 
-  6. Use o find para trazer todos os Hamsters
+	6. Use o find para trazer todos os Hamsters
 
-db.pets.find({"species": "Hamster"})
+> db.pets.find({"species": "Hamster"})
 
-  7. Use o find para listar todos os pets com nome Mike
+	7. Use o find para listar todos os pets com nome Mike
 
-db.pets.find({"name": "Mike"})
+> db.pets.find({"name": "Mike"})
 
-  8. Liste apenas o documento que é um Cachorro chamado Mike
+	8. Liste apenas o documento que é um Cachorro chamado Mike
 
-db.pets.find({"name": "Mike", "species": "Cachorro"})
+> db.pets.find({"name": "Mike", "species": "Cachorro"})
 
 
 
 -- Exercício 02 - Mama mia!
+
+
 	1. Liste/Conte todas as pessoas que tem exatamente 99 anos. Você pode usar um count para indicar a quantidade.
 
 >db.italians.find({"age":99}).count()
