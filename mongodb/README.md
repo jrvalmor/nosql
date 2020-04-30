@@ -41,46 +41,56 @@
 	1. Liste/Conte todas as pessoas que tem exatamente 99 anos. Você pode usar um count para indicar a quantidade.
 
 >db.italians.find({"age":99}).count()
+
 0
 
 	2. Identifique quantas pessoas são elegíveis atendimento prioritário (pessoas com mais de 65 anos)
 
 > db.italians.find({"age":{"$gt":65}}).count()
+
 1738
 
 > db.italians.find({"age":{"$gte":65}}).count()
+
 1861
 
 	3. Identifique todos os jovens (pessoas entre 12 a 18 anos).
 
 > db.italians.find({"age":{"$gt":12, "$lt":18}}).count()
+
 611
 
 > db.italians.find({"age":{"$gte":12, "$lte":18}}).count()
+
 840
 
 	4. Identifique quantas pessoas tem gatos, quantas tem cachorro e quantas não tem nenhum dos dois
 
 Gatos:
 > db.italians.find({"cat":{"$exists":true}}).count()
+
 5989
 
 Cachorros:
 > db.italians.find({"dog":{"$exists":true}}).count()
+
 3993
 
 Nenhum dos 2:
 > db.italians.find({"$and" : [{"cat":{"$exists":false}}, {"dog":{"$exists":false}}]}).count()
+
 2360
 
 	5. Liste/Conte todas as pessoas acima de 60 anos que tenham gato 
 
 > db.italians.find({"$and" : [{"age":{"$gt":65}}, {"cat":{"$exists":true}}]}).count()
+
 1014
 
 	6. Liste/Conte todos os jovens com cachorro
 
 > db.italians.find({"$and" : [{"age":{"$lt":18}}, {"dog":{"$exists":true}}]}).count()
+
 895
 
 	7. Utilizando o $where, liste todas as pessoas que tem gato e cachorro
@@ -94,13 +104,17 @@ Nenhum dos 2:
 	9. Liste as pessoas que tem o mesmo nome que seu bichano (gatou ou cachorro)
 
 > db.italians.find({"$and" : [{"cat":{"$exists":true}}, {"dog":{"$exists":true}}, {$where:"this.firstname == this.cat.name"}]}).count()
+
 39
+
 > db.italians.find({"$and" : [{"cat":{"$exists":true}}, {"dog":{"$exists":true}}, {$where:"this.firstname == this.dog.name"}]}).count()
+
 20
 
 	10. Projete apenas o nome e sobrenome das pessoas com tipo de sangue de fator RH negativo
 
 > db.italians.find({"bloodType": /-/i}).count()
+
 4982
 > db.italians.find({"bloodType": /-/i}, {"_id":0, "firstname":1, "surname":1})
 { "firstname" : "Marta", "surname" : "Pellegrini" }
