@@ -154,10 +154,19 @@ WriteResult({ "nRemoved" : 1 })
 
 	15. Passou um ano. Atualize a idade de todos os italianos e dos bichanos em 1.
 
+db.italians.update({}, {"$inc": {"age": 1}}, {multi: true})
 
+db.italians.update({}, {"$inc": {"dog.age": 1}}, {multi: true})
+db.italians.update({}, {"$inc": {"cat.age": 1}}, {multi: true})
 
 	16. O Corona Vírus chegou na Itália e misteriosamente atingiu pessoas somente com gatos e de 66 anos. Remova esses italianos.
 
+> db.italians.find({"$and" : [{"age": 66}, {"cat":{"$exists":true}}]}).count()
+117
+> db.italians.remove({"$and" : [{"age": 66}, {"cat":{"$exists":true}}]})
+WriteResult({ "nRemoved" : 117 })
+> db.italians.find({"$and" : [{"age": 66}, {"cat":{"$exists":true}}]}).count()
+0
 
 
 	17. Utilizando o framework agregate, liste apenas as pessoas com nomes iguais a sua respectiva mãe e que tenha gato ou cachorro.
@@ -166,14 +175,13 @@ WriteResult({ "nRemoved" : 1 })
 
 	18. Utilizando aggregate framework, faça uma lista de nomes única de nomes. Faça isso usando apenas o primeiro nome
 
-
+> db.italians.aggregate([{$group: {"_id": "$firstname"}}])
 
 	19. Agora faça a mesma lista do item acima, considerando nome completo.
 
-
+--
+db.italians.aggregate([{$group: {"_id": ["$firstname", "$surname"]}}])
 
 	20. Procure pessoas que gosta de Banana ou Maçã, tenham cachorro ou gato, mais de 20 e menos de 60 anos.
-
-
 
 
