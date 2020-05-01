@@ -71,3 +71,85 @@ return m.title, type(rel)
 match (m:Movie)<-[rel:ACTED_IN]-(p:Person{name: 'Tom Hanks'})
 return m.title, rel.roles
 
+
+Exercício 4 – Filtering queries using WHERE clause
+Coloque os comandos utilizado em cada item a seguir:
+
+	Exercise 4.1: Retrieve all movies that Tom Cruise acted in.
+
+match (m:Movie) <-[rel:ACTED_IN]-(p:Person)
+where p.name = 'Tom Cruise'
+
+return m.title
+
+	Exercise 4.2: Retrieve all people that were born in the 70’s.
+
+match (p:Person) where p.born = 1970 
+return p
+
+	Exercise 4.3: Retrieve the actors who acted in the movie The Matrix who were born after 1960.
+
+match (m:Movie) <-[rel:ACTED_IN]-(p:Person)
+where m.title = 'The Matrix' and p.born > 1960
+
+return p.name
+
+	Exercise 4.4: Retrieve all movies by testing the node label and a property.
+
+match (m:Movie)
+where m.title = 'The Matrix'
+return m.title
+
+	Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes.
+
+match (x)-[rel]->(y)
+where x:Person and type(rel) = 'WROTE' and y:Movie
+return x.name, type(rel), y.title
+
+	Exercise 4.6: Retrieve all people in the graph that do not have a property.
+
+match (m:Movie) where not exists(m.rating)
+return m
+
+	Exercise 4.7: Retrieve all people related to movies where the relationship has a property.
+
+match (p:Person)-[rel]->(m:Movie)
+where exists(rel.summary)
+return p
+
+	Exercise 4.8: Retrieve all actors whose name begins with James.
+
+match (p:Person) -[:ACTED_IN]-> (m:Movie)
+where p.name =~'James.*'
+return p.name
+
+	Exercise 4.9: Retrieve all all REVIEW relationships from the graph with filtered results.
+
+match (p:Person) -[rel:REVIEWED]-> (m:Movie)
+where rel.summary CONTAINS 'movie'
+return m.title, rel.summary
+
+	Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie.
+
+match (p:Person) -[rel:PRODUCED]-> (m:Movie)
+where not (p)-[:DIRECTED]-> (m)
+return p.name
+
+	Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie.
+
+match (p:Person) -[rel:ACTED_IN]->(m:Movie)
+where exists ((p)-[:DIRECTED]-> (m))
+return m.name
+
+	Exercise 4.12: Retrieve all movies that were released in a set of years.
+
+match (m:Movie) 
+where m.released in [2000, 2001, 2003]
+return m.title
+
+
+	Exercise 4.13: Retrieve the movies that have an actor’s role that is the name of the movie.
+
+match (p:Person)-[rel:ACTED_IN]->(m:Movie)
+where m.title = rel.roles
+return m.title
