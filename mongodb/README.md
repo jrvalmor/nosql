@@ -192,19 +192,19 @@ Exercício 3 - Stockbrokers
 
 	1. Liste as ações com profit acima de 0.5 (limite a 10 o resultado)
 
-
+> db.stocks1.find({"Profit Margin": {"$gt": 0.5}}).sort({"Profit Margin": -1}).limit(10).pretty()
 
 	2. Liste as ações com perdas (limite a 10 novamente)
 
-
+> db.stocks1.find().sort({"Performance (Year)": -1}).limit(10).pretty()
 
 	3. Liste as 10 ações mais rentáveis
 
-
+> db.stocks1.find().sort({"Return on Assets": -1}).limit(10).pretty()
 
 	4. Qual foi o setor mais rentável?
 
-
+> db.stocks1.aggregate([{$group: {"_id": "$Sector", rentabilidade: {$sum: "$Profit Margin"}}}])
 
 	5. Ordene as ações pelo profit e usando um cursor, liste as ações.
 
@@ -216,7 +216,7 @@ Exercício 3 - Stockbrokers
 
 	7. Agora liste apenas a empresa e seu respectivo resultado
 
-
+> db.stocks1.find({}, {"_id": 0, "Company": 1, "Performance (Year)": 1})
 
 	8. Analise as ações. É uma bola de cristal na sua mão... Quais as três ações você investiria?
 
@@ -224,17 +224,29 @@ Exercício 3 - Stockbrokers
 
 	9. Liste as ações agrupadas por setor
 
-
+> db.stocks1.aggregate([{$group: {"_id": "$Sector"}}])
+{ "_id" : "Basic Materials" }
+{ "_id" : "Services" }
+{ "_id" : "Conglomerates" }
+{ "_id" : "Healthcare" }
+{ "_id" : "Technology" }
+{ "_id" : "Consumer Goods" }
+{ "_id" : "Financial" }
+{ "_id" : "Industrial Goods" }
+{ "_id" : "Utilities" }
+>
 
 
 
 Exercício 3 – Fraude na Enron!
 
-	1. Liste as pessoas que enviaram e-mails (de forma distinta, ou seja, sem
-repetir). Quantas pessoas são?
+	1. Liste as pessoas que enviaram e-mails (de forma distinta, ou seja, sem repetir). Quantas pessoas são?
 
+> db.italians.aggregate([{$group: {"_id": "$firstname"}}])
 
 
 	2. Contabilize quantos e-mails tem a palavra “fraud”
 
+> db.stocks.find({"text": /fraud/i}).count()
+25
 
